@@ -100,5 +100,3 @@ Before starting, ensure you have the following:
 
 This guide should help you get started with Aleo, the voice assistant. Enjoy coding!
 ```
-
-Copy this code into a `.md` file (e.g., `setup.md`) for your project documentation.
