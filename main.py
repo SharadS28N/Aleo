@@ -30,7 +30,7 @@ def speak(text, lang='en'):
     if lang == 'ne':
         engine.setProperty('voice', 'nepali_voice_id')  # Replace with actual Nepali voice ID if supported
     else:
-        engine.setProperty('voice', engine.getProperty('voices')[0].id)
+        engine.setProperty('voice', engine.getProperty('voices')[1].id)
     engine.say(text)
     engine.runAndWait()
 
@@ -215,7 +215,7 @@ def handle_commands():
                     break
 
                 # Special Case for "Who made you?"
-                if "who made you" in command or "who created you" in command:
+                if "who made you" in command or "who created you" in command or "who developed you" in command or "made by" in command:
                     speak("Sharad Bhandari and the Team Aleo.")
                     return
 
