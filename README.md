@@ -28,8 +28,8 @@ Before starting, ensure you have the following:
    Clone this repository to your local machine or download the source code.
 
    ```bash
-   git clone <repository_url>
-   cd Aleo
+   git clone [<repository_url>](https://github.com/SharadS28N/Assistant.git)
+   cd Assistant
    ```
 
 2. **Set Up a Virtual Environment**
@@ -99,4 +99,3 @@ Before starting, ensure you have the following:
 ---
 
 This guide should help you get started with Aleo, the voice assistant. Enjoy coding!
-```
