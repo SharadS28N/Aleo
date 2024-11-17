@@ -28,7 +28,7 @@ Before starting, ensure you have the following:
    Clone this repository to your local machine or download the source code.
 
    ```bash
-   git clone <repository_url>
+   git clone https://github.com/SharadS28N/Assistant.git
    cd Aleo
    ```
 
@@ -99,4 +99,4 @@ Before starting, ensure you have the following:
 ---
 
 This guide should help you get started with Aleo, the voice assistant. Enjoy coding!
-```
+
