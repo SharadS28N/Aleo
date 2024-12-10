@@ -44,6 +44,7 @@ def get_response(user_input):
     return convo_message.text
 
 def speak(text, lang='en'):
+<<<<<<< HEAD
     """Speak the given text using pyttsx3."""
     global stop_flag
     print(f"Aleo: {text}")
@@ -53,6 +54,14 @@ def speak(text, lang='en'):
         engine.runAndWait()
     except Exception as e:
         print(f"[ERROR] TTS error: {str(e)}")
+=======
+    if lang == 'ne':
+        engine.setProperty('voice', 'nepali_voice_id')  # Replace with actual Nepali voice ID if supported
+    else:
+        engine.setProperty('voice', engine.getProperty('voices')[0].id)
+    engine.say(text)
+    engine.runAndWait()
+>>>>>>> badd990284613184136cd1d22bb10e1833ac6beb
 
 def play_music(song_name):
     global current_player, music_playing, stop_flag
@@ -167,11 +176,50 @@ def handle_commands():
                     speak("Stopping assistant.")
                     break
 
+<<<<<<< HEAD
                 if music_playing:
                     if "stop music" in command or "music stop" in command:
                         stop_music()
                     else:
                         speak("Please wait until the current song finishes.")
+=======
+                # Special Case for "Who made you?"
+                if "who made you" in command or "who created you" in command:
+                    speak("Sharad Bhandari and the Team Aleo.")
+                    return
+
+                if "news" in command:
+                    get_news()
+                elif "weather" in command:
+                    city = command.replace("weather in", "").strip()
+                    get_weather(city)
+                elif "alarm" in command:
+                    time_str = command.split()[-1]
+                    set_alarm(time_str)
+                elif "play music" in command:
+                    song_path = command.replace("play music", "").strip()
+                    play_music(song_path)
+                elif "volume" in command:
+                    action = command.split()[-1]
+                    control_volume(action)
+                elif "translate" in command:
+                    text = command.split("translate")[-1].split("to")[0].strip()
+                    target_language = command.split("to")[-1].strip()
+                    translate_text(text, target_language)
+                elif "open" in command:
+                    app_name = command.replace("open", "").strip()
+                    open_application(app_name)
+                elif "shutdown" in command:
+                    system_shutdown()
+                elif "restart" in command:
+                    system_restart()
+                elif "calculate" in command:
+                    expression = command.replace("calculate", "").strip()
+                    calculate(expression)
+                elif "reminder" in command:
+                    reminder_text, reminder_time = command.replace("set reminder for", "").split(" at ")
+                    set_reminder(reminder_text.strip(), reminder_time.strip())
+>>>>>>> badd990284613184136cd1d22bb10e1833ac6beb
                 else:
                     if "weather" in command:
                         city = command.replace("weather in", "").strip()
