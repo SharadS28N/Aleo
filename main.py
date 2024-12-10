@@ -44,58 +44,20 @@ def get_response(user_input):
     return convo_message.text
 
 def speak(text, lang='en'):
-    """Speak the given text using pyttsx3."""
-    global stop_flag
-    print(f"Aleo: {text}")
-    set_voice(lang)
-    try:
-        engine.say(text)
-        engine.runAndWait()
-    except Exception as e:
-        print(f"[ERROR] TTS error: {str(e)}")
+    if lang == 'ne':
+        engine.setProperty('voice', 'nepali_voice_id')  # Replace with actual Nepali voice ID if supported
+    else:
+        engine.setProperty('voice', engine.getProperty('voices')[0].id)
+    engine.say(text)
+    engine.runAndWait()
 
-def play_music(song_name):
-    global current_player, music_playing, stop_flag
-    try:
-        ydl_opts = {'format': 'bestaudio/best', 'noplaylist': True, 'quiet': True}
-        with yt_dlp.YoutubeDL(ydl_opts) as ydl:
-            info = ydl.extract_info(f"ytsearch:{song_name}", download=False)['entries'][0]
-            url = info['url']
-            title = info['title']
-            speak(f"Playing {title} from YouTube.")
-            
-            if current_player is not None:
-                current_player.stop()
-            
-            current_player = vlc.MediaPlayer(url)
-            current_player.play()
-            music_playing = True
+def detect_language(text):
+    return detect(text)
 
-            duration = info.get('duration', 0)
-            elapsed = 0
-            while elapsed < duration:
-                if stop_flag:
-                    current_player.stop()
-                    music_playing = False
-                    speak("Music stopped.")
-                    return
-                time.sleep(1)
-                elapsed += 1
-            current_player.stop()
-            music_playing = False
-    except Exception as e:
-        speak(f"Error playing music: {str(e)}")
-        current_player = None
-
-def stop_music():
-    global current_player, music_playing
-    if current_player is not None:
-        try:
-            current_player.stop()
-            music_playing = False
-            speak("Music stopped.")
-        except Exception as e:
-            print(f"[ERROR] Failed to stop music: {str(e)}")
+def play_music(song_path):
+    if os.path.isfile(song_path):
+        os.system(f'start {song_path}' if os.name == 'nt' else f'open "{song_path}"')
+        speak("Playing music.")
     else:
         speak("No music is currently playing.")
 
@@ -167,11 +129,42 @@ def handle_commands():
                     speak("Stopping assistant.")
                     break
 
-                if music_playing:
-                    if "stop music" in command or "music stop" in command:
-                        stop_music()
-                    else:
-                        speak("Please wait until the current song finishes.")
+                # Special Case for "Who made you?"
+                if "who made you" in command or "who created you" in command:
+                    speak("Sharad Bhandari and the Team Aleo.")
+                    return
+
+                if "news" in command:
+                    get_news()
+                elif "weather" in command:
+                    city = command.replace("weather in", "").strip()
+                    get_weather(city)
+                elif "alarm" in command:
+                    time_str = command.split()[-1]
+                    set_alarm(time_str)
+                elif "play music" in command:
+                    song_path = command.replace("play music", "").strip()
+                    play_music(song_path)
+                elif "volume" in command:
+                    action = command.split()[-1]
+                    control_volume(action)
+                elif "translate" in command:
+                    text = command.split("translate")[-1].split("to")[0].strip()
+                    target_language = command.split("to")[-1].strip()
+                    translate_text(text, target_language)
+                elif "open" in command:
+                    app_name = command.replace("open", "").strip()
+                    open_application(app_name)
+                elif "shutdown" in command:
+                    system_shutdown()
+                elif "restart" in command:
+                    system_restart()
+                elif "calculate" in command:
+                    expression = command.replace("calculate", "").strip()
+                    calculate(expression)
+                elif "reminder" in command:
+                    reminder_text, reminder_time = command.replace("set reminder for", "").split(" at ")
+                    set_reminder(reminder_text.strip(), reminder_time.strip())
                 else:
                     if "weather" in command:
                         city = command.replace("weather in", "").strip()

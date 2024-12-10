@@ -2,6 +2,8 @@
 
 Aleo is a Python-based voice assistant project designed to run on Google Gemini. Follow this guide to set up and run Aleo.
 
+![alt text](<aleo 2.png>)
+
 ## Project Structure
 Here is a quick overview of the project files and folders:
 
