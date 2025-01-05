@@ -103,3 +103,4 @@ Before starting, ensure you have the following:
 This guide should help you get started with Aleo, the voice assistant. Enjoy coding!
 
 ---
+![image](https://raw.githubusercontent.com/SharadS28N/Aleo/main/aleo%202.png)
